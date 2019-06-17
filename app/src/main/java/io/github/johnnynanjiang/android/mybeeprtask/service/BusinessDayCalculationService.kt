@@ -15,6 +15,8 @@ class BusinessDayCalculationService : IntentService("BusinessDayCalculationServi
     }
 
     override fun onHandleIntent(intent: Intent?) {
+        Thread.sleep(3000)
+
         intent?.let {
             val startDate = it.getStringExtra(KEY_START_DATE)
             val endDate = it.getStringExtra(KEY_END_DATE)

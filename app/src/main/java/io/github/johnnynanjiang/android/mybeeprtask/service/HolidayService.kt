@@ -13,6 +13,7 @@ class HolidayService {
     // data source https://www.nsw.gov.au/about-new-south-wales/public-holidays/
     private suspend fun loadHolidays(): List<String> {
         delay(3000)
+
         return listOf(
             "01/01/2019",
             "28/01/2019",
