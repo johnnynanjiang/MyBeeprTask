@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     private fun runCalculator() {
         val intent = Intent(this, BusinessDayCalculationService::class.java)
         val startDate = "17/06/2019"
-        val endDate = "17/06/9999"
+        val endDate = "17/06/2020"
         intent.putExtra(KEY_START_DATE, startDate)
         intent.putExtra(KEY_END_DATE, endDate)
         text_hint.text = String.format(

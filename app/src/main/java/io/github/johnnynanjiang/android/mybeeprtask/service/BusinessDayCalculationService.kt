@@ -19,7 +19,8 @@ class BusinessDayCalculationService : IntentService("BusinessDayCalculationServi
             val startDate = it.getStringExtra(KEY_START_DATE)
             val endDate = it.getStringExtra(KEY_END_DATE)
             val calculator = BusinessDayCalculator()
-            val numberOfBusinessDays = calculator.getNumberOfBusinessDaysBetween(startDate, endDate)
+            val holidays = HolidayService().getHolidays()
+            val numberOfBusinessDays = calculator.getNumberOfBusinessDaysBetween(startDate, endDate, holidays)
 
             intent.action = KEY_BUSINESS_DAY_CALCULATION_ACTION
             LocalBroadcastManager.getInstance(applicationContext)

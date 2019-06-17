@@ -12,7 +12,10 @@ class BusinessDayCalculator {
         SimpleDateFormat(DATE_FORMAT).parse(date)
 
     fun getNumberOfBusinessDaysBetween(from: String, to: String, holidays: List<String> = emptyList()) =
-        getNumberOfBusinessDaysBetween(getDateFromString(from), getDateFromString(to), holidays.map { getDateFromString(it) })
+        getNumberOfBusinessDaysBetween(
+            getDateFromString(from),
+            getDateFromString(to),
+            holidays.map { getDateFromString(it) })
 
     private fun getNumberOfBusinessDaysBetween(from: Date, to: Date, holidays: List<Date> = emptyList()): Int {
         val startCal = Calendar.getInstance()
@@ -50,7 +53,7 @@ class BusinessDayCalculator {
 
     private fun isHoliday(calendar: Calendar, holidays: List<Date>): Boolean {
         val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-        if ( dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
+        if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
             return true
         }
 
