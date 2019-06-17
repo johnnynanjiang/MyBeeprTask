@@ -10,8 +10,8 @@ class BusinessDayCalculationService : IntentService("BusinessDayCalculationServi
         const val KEY_NUMBER_OF_BUSINESS_DAYS = "numberOfBusinessDays"
         const val KEY_START_DATE = "startDate"
         const val KEY_END_DATE = "endDate"
+        const val KEY_BUSINESS_DAY_CALCULATION_ACTION = "businessDayCalculation"
         const val DEFAULT_NUMBER_OF_BUSINESS_DAYS = 0
-        const val KEY_ACTION = "actionKey"
     }
 
     override fun onHandleIntent(intent: Intent?) {
@@ -20,6 +20,8 @@ class BusinessDayCalculationService : IntentService("BusinessDayCalculationServi
             val endDate = it.getStringExtra(KEY_END_DATE)
             val calculator = BusinessDayCalculator()
             val numberOfBusinessDays = calculator.getNumberOfBusinessDaysBetween(startDate, endDate)
+
+            intent.action = KEY_BUSINESS_DAY_CALCULATION_ACTION
             LocalBroadcastManager.getInstance(applicationContext)
                 .sendBroadcast(intent.putExtra(KEY_NUMBER_OF_BUSINESS_DAYS, numberOfBusinessDays))
         }

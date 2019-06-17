@@ -10,14 +10,15 @@ import android.support.v4.content.LocalBroadcastManager
 import io.github.johnnynanjiang.android.mybeeprtask.R
 import io.github.johnnynanjiang.android.mybeeprtask.service.BusinessDayCalculationService
 import io.github.johnnynanjiang.android.mybeeprtask.service.BusinessDayCalculationService.Companion.DEFAULT_NUMBER_OF_BUSINESS_DAYS
-import io.github.johnnynanjiang.android.mybeeprtask.service.BusinessDayCalculationService.Companion.KEY_ACTION
+import io.github.johnnynanjiang.android.mybeeprtask.service.BusinessDayCalculationService.Companion.KEY_BUSINESS_DAY_CALCULATION_ACTION
 import io.github.johnnynanjiang.android.mybeeprtask.service.BusinessDayCalculationService.Companion.KEY_END_DATE
 import io.github.johnnynanjiang.android.mybeeprtask.service.BusinessDayCalculationService.Companion.KEY_NUMBER_OF_BUSINESS_DAYS
 import io.github.johnnynanjiang.android.mybeeprtask.service.BusinessDayCalculationService.Companion.KEY_START_DATE
 import kotlinx.android.synthetic.main.activity_main.button_calculate
+import kotlinx.android.synthetic.main.activity_main.text_hint
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var responseReceiver: ResponseReceiver
+    private lateinit var responseReceiver: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,28 +32,44 @@ class MainActivity : AppCompatActivity() {
         deregisterReceiver()
     }
 
-    fun runCalculator() {
+    private fun runCalculator() {
         val intent = Intent(this, BusinessDayCalculationService::class.java)
-        intent.putExtra(KEY_START_DATE, "17/06/2019")
-        intent.putExtra(KEY_END_DATE, "17/06/20099")
+        val startDate = "17/06/2019"
+        val endDate = "17/06/9999"
+        intent.putExtra(KEY_START_DATE, startDate)
+        intent.putExtra(KEY_END_DATE, endDate)
+        text_hint.text = String.format(
+            resources.getString(R.string.start_message),
+            startDate,
+            endDate
+        )
         startService(intent)
     }
 
     private fun registerReceiver() {
-        responseReceiver = ResponseReceiver()
+        responseReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                intent?.let {
+                    val startDate = intent.getStringExtra(KEY_START_DATE)
+                    val endDate = intent.getStringExtra(KEY_END_DATE)
+                    val numberOfBusinessDays =
+                        intent.getIntExtra(KEY_NUMBER_OF_BUSINESS_DAYS, DEFAULT_NUMBER_OF_BUSINESS_DAYS)
+                    text_hint.text = String.format(
+                        resources.getString(R.string.result_message),
+                        numberOfBusinessDays,
+                        startDate,
+                        endDate
+                    )
+                }
+            }
+        }
+
         val intentFilter = IntentFilter()
+        intentFilter.addAction(KEY_BUSINESS_DAY_CALCULATION_ACTION)
         LocalBroadcastManager.getInstance(this).registerReceiver(responseReceiver, intentFilter)
     }
 
     private fun deregisterReceiver() {
         unregisterReceiver(responseReceiver)
-    }
-
-    private class ResponseReceiver : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            intent?.let {
-                val numberOfBusinessDays = intent.getIntExtra(KEY_NUMBER_OF_BUSINESS_DAYS, DEFAULT_NUMBER_OF_BUSINESS_DAYS)
-            }
-        }
     }
 }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MyBeeprTask</string>
+    <string name="start_message">Calculating the number of business days in between %1$s and %2$s...</string>
+    <string name="result_message">There are %1$d business days in between %2$s and %3$s</string>
 </resources>
