@@ -1,21 +1,13 @@
 package io.github.johnnynanjiang.android.mybeeprtask.domain
 
-import java.text.SimpleDateFormat
 import java.util.*
 
 class BusinessDayCalculator {
-    private companion object {
-        const val DATE_FORMAT = "dd/MM/yyyy"
-    }
-
-    fun getDateFromString(date: String): Date =
-        SimpleDateFormat(DATE_FORMAT).parse(date)
-
     fun getNumberOfBusinessDaysBetween(from: String, to: String, holidays: List<String> = emptyList()) =
         getNumberOfBusinessDaysBetween(
-            getDateFromString(from),
-            getDateFromString(to),
-            holidays.map { getDateFromString(it) })
+            DateHelper.getDateFromString(from),
+            DateHelper.getDateFromString(to),
+            holidays.map { DateHelper.getDateFromString(it) })
 
     private fun getNumberOfBusinessDaysBetween(from: Date, to: Date, holidays: List<Date> = emptyList()): Int {
         val startCal = Calendar.getInstance()
@@ -52,8 +44,7 @@ class BusinessDayCalculator {
     }
 
     private fun isHoliday(calendar: Calendar, holidays: List<Date>): Boolean {
-        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-        if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
+        if (DateHelper.isWeekend(calendar.time)) {
             return true
         }
 

@@ -12,7 +12,7 @@ import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import android.widget.EditText
 import io.github.johnnynanjiang.android.mybeeprtask.R
-import io.github.johnnynanjiang.android.mybeeprtask.domain.BusinessDayCalculator
+import io.github.johnnynanjiang.android.mybeeprtask.domain.DateHelper
 import io.github.johnnynanjiang.android.mybeeprtask.service.BusinessDayCalculationService
 import io.github.johnnynanjiang.android.mybeeprtask.service.BusinessDayCalculationService.Companion.DEFAULT_NUMBER_OF_BUSINESS_DAYS
 import io.github.johnnynanjiang.android.mybeeprtask.service.BusinessDayCalculationService.Companion.KEY_BUSINESS_DAY_CALCULATION_ACTION
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     private fun showDatePickerDialog(editText: EditText) {
         val today = Calendar.getInstance()
         val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, month, day ->
-            editText.setText(String.format("%s/%s/%s", day, month + 1, year))
+            editText.setText(DateHelper.getFormattedDateString(day, month + 1, year))
         }, today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE))
 
         datePickerDialog.show()
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         try {
-            with(BusinessDayCalculator()) {
+            with(DateHelper) {
                 getDateFromString(from)
                 getDateFromString(to)
             }

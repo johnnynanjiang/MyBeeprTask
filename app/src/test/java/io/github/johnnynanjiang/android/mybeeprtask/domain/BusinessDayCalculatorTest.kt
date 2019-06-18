@@ -3,21 +3,9 @@ package io.github.johnnynanjiang.android.mybeeprtask.domain
 import org.junit.Test
 
 import org.junit.Assert.*
-import java.util.*
 
 class BusinessDayCalculatorTest {
     private val calculator = BusinessDayCalculator()
-
-    @Test
-    fun getDateFromString() {
-        val date = "17/06/2019"
-
-        with(calculator) {
-            assertEquals(2019, getDateFromString(date).year + 1900)
-            assertEquals(Calendar.JUNE, getDateFromString(date).month)
-            assertEquals(17, getDateFromString(date).date)
-        }
-    }
 
     @Test
     fun getNumberOfBusinessDaysWithoutHolidays() {
