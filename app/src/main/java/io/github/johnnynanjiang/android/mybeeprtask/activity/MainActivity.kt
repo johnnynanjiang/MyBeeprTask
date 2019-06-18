@@ -13,6 +13,7 @@ import android.util.Log
 import android.widget.EditText
 import io.github.johnnynanjiang.android.mybeeprtask.R
 import io.github.johnnynanjiang.android.mybeeprtask.domain.DateHelper
+import io.github.johnnynanjiang.android.mybeeprtask.domain.DateHelper.Companion.getDateFromString
 import io.github.johnnynanjiang.android.mybeeprtask.service.BusinessDayCalculationService
 import io.github.johnnynanjiang.android.mybeeprtask.service.BusinessDayCalculationService.Companion.DEFAULT_NUMBER_OF_BUSINESS_DAYS
 import io.github.johnnynanjiang.android.mybeeprtask.service.BusinessDayCalculationService.Companion.KEY_BUSINESS_DAY_CALCULATION_ACTION
@@ -76,8 +77,12 @@ class MainActivity : AppCompatActivity() {
 
         try {
             with(DateHelper) {
-                getDateFromString(from)
-                getDateFromString(to)
+                val fromDate = getDateFromString(from)
+                val toDate = getDateFromString(to)
+
+                if (fromDate > toDate) {
+                    return false
+                }
             }
         } catch (exception: Throwable) {
             return false

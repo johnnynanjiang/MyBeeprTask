@@ -30,5 +30,12 @@ class DateHelper {
         }
 
         fun getFormattedDateString(day: Int, month: Int, year: Int) = String.format("%s/%s/%s", day, month, year)
+
+        fun getYear(date: String): Int {
+            val d = getDateFromString(date)
+            val cal = Calendar.getInstance()
+            cal.time = d
+            return cal.get(Calendar.YEAR)
+        }
     }
 }

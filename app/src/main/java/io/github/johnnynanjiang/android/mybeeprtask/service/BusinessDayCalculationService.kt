@@ -4,6 +4,7 @@ import android.app.IntentService
 import android.content.Intent
 import android.support.v4.content.LocalBroadcastManager
 import io.github.johnnynanjiang.android.mybeeprtask.domain.BusinessDayCalculator
+import io.github.johnnynanjiang.android.mybeeprtask.domain.DateHelper.Companion.getYear
 
 class BusinessDayCalculationService : IntentService("BusinessDayCalculationService") {
     companion object {
@@ -21,7 +22,7 @@ class BusinessDayCalculationService : IntentService("BusinessDayCalculationServi
             val startDate = it.getStringExtra(KEY_START_DATE)
             val endDate = it.getStringExtra(KEY_END_DATE)
             val calculator = BusinessDayCalculator()
-            val holidays = HolidayService().getHolidays()
+            val holidays = HolidayService().getHolidaysInYears(getYear(startDate), getYear(endDate))
             val numberOfBusinessDays = calculator.getNumberOfBusinessDaysBetween(startDate, endDate, holidays)
 
             intent.action = KEY_BUSINESS_DAY_CALCULATION_ACTION

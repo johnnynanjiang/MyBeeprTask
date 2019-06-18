@@ -7,6 +7,7 @@ import io.github.johnnynanjiang.android.mybeeprtask.domain.DateHelper.Companion.
 import io.github.johnnynanjiang.android.mybeeprtask.domain.DateHelper.Companion.getStringFromDate
 import io.github.johnnynanjiang.android.mybeeprtask.domain.DateHelper.Companion.getDateFromString
 import io.github.johnnynanjiang.android.mybeeprtask.domain.DateHelper.Companion.isWeekend
+import io.github.johnnynanjiang.android.mybeeprtask.domain.DateHelper.Companion.getYear
 import junit.framework.Assert.*
 
 class DateHelperTest {
@@ -32,5 +33,11 @@ class DateHelperTest {
     fun isWeekend() {
         assertTrue(isWeekend(getDate(16, 6, 2019)))
         assertFalse(isWeekend(getDate(18, 6, 2019)))
+    }
+
+    @Test
+    fun getYear() {
+        assertEquals(2019, getYear("01/01/2019"))
+        assertEquals(2020, getYear("01/01/2020"))
     }
 }
